@@ -1,62 +1,66 @@
 public class Reto {
 
-    public static final char[] LETTERS = {'S', 'E', 'N', 'D', 'M', 'O', 'R', 'Y'};
-    
-    static boolean[] used = new boolean[10];
-    
+    static char[] letras = "SENDMORY".toCharArray();
+
+    static String noCero = "SM";
+
+    static boolean esSumaCorrecta() {
+        return (
+            calcularValor("SEND") +
+                calcularValor("MORE") ==
+            calcularValor("MONEY")
+        );
+    }
+
     static int[] valores = new int[256];
-
-    static boolean moreMoney(int indice){
-
-        if (indice == LETTERS.length) {
-            return comprobarSuma();
-        }
-
-        char caracterActual = LETTERS[indice];
-
-        for (int digit = 0; digit <= 9; digit++) {
-            if (digit == 0 && (caracterActual == 'S' || caracterActual == 'M')){ 
-                continue; 
-            }
-
-            if (!used[digit]) {
-                used[digit] = true;
-                valores[caracterActual] = digit;
-                
-                if (moreMoney(indice + 1)) {
-                    return true;
-                }
-
-                used[digit] = false;
-            }
-        }
-
-        return false;
-    }
-
-    static boolean comprobarSuma() {
-        int send = valores['S'] * 1000 + valores['E'] * 100 + valores['N'] * 10 + valores['D'];
-        int more = valores['M'] * 1000 + valores['O'] * 100 + valores['R'] * 10 + valores['E'];
-        int money = valores['M'] * 10000 + valores['O'] * 1000 + valores['N'] * 100 + valores['E'] * 10 + valores['Y'];
-
-        if (send + more == money) {
-            System.out.println("Encontrado:");
-            System.out.println("  " + send);
-            System.out.println("+ " + more);
-            System.out.println("-------");
-            System.out.println(" " + money);
-            return true;
-        }
-        return false;
-    }
+    static boolean[] digitosUsados = new boolean[10];
 
     public static void main(String[] args) {
-        
-        System.out.println("Iniciando la búsqueda...");
+        System.out.println("Buscando solución...");
+        resolver(0);
+    }
 
-        if (!moreMoney(0)) {
-            System.out.println("No se encontró solución.");
+    static void resolver(int indiceLetra) {
+        if (indiceLetra == letras.length) {
+            if (esSumaCorrecta()) {
+                imprimirSolucion();
+            }
+
+            return;
+        }
+
+        char letraActual = letras[indiceLetra];
+
+        for (int digito = 0; digito <= 9; digito++) {
+            if (
+                digitosUsados[digito] ||
+                (digito == 0 && noCero.indexOf(letraActual) != -1)
+            ) {
+                continue;
+            }
+
+            valores[letraActual] = digito;
+            digitosUsados[digito] = true;
+
+            resolver(indiceLetra + 1);
+
+            digitosUsados[digito] = false;
         }
     }
 
+    static int calcularValor(String palabra) {
+        int numero = 0;
+        for (char c : palabra.toCharArray()) {
+            numero = numero * 10 + valores[c];
+        }
+        return numero;
+    }
+
+    static void imprimirSolucion() {
+        System.out.println("Solución encontrada: ");
+        for (char letra : letras) {
+            System.out.println(letra + " = " + valores[letra]);
+        }
+        System.out.println("-------------------");
+    }
 }
