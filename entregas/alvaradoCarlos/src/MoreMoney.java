@@ -1,4 +1,4 @@
-public class Reto {
+public class MoreMoney {
 
     static char[] letras = "SENDMORY".toCharArray();
 
@@ -32,19 +32,15 @@ public class Reto {
         char letraActual = letras[indiceLetra];
 
         for (int digito = 0; digito <= 9; digito++) {
-            if (
-                digitosUsados[digito] ||
-                (digito == 0 && noCero.indexOf(letraActual) != -1)
-            ) {
-                continue;
+            if (!digitosUsados[digito] && (digito != 0 || noCero.indexOf(letraActual) == -1)) {
+                
+                valores[letraActual] = digito;
+                digitosUsados[digito] = true;
+
+                resolver(indiceLetra + 1);
+
+                digitosUsados[digito] = false;
             }
-
-            valores[letraActual] = digito;
-            digitosUsados[digito] = true;
-
-            resolver(indiceLetra + 1);
-
-            digitosUsados[digito] = false;
         }
     }
 
