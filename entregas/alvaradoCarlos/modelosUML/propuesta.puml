@@ -1,0 +1,56 @@
+@startuml
+
+package EstructuraI3 {
+
+  node Pantalla as "
+  <b>Pantalla</b>
+  <font color=blue>layout: splith</font>
+  " 
+  
+  node VentanaHija1 as "
+  <b>Contenedor</b>
+  <font color=green>layout: splitv</font>
+  "
+  
+  node VentanaHija2 as "
+  <b>Contenedor</b>
+  <font color=green>layout: splitv</font>
+  "
+  
+  file VentanaHija3 as "VS Code" #LightSteelBlue {
+  }
+  
+  file VentanaHija4 as "Navegador" {
+  }
+  
+  node VentanaHija5 as "
+  <b>Contenedor</b>
+  <font color=green>layout: splitv</font>
+  "
+  
+  file VentanaHija6 as "Spotify" {
+  }
+  
+  file VentanaHija7 as "Terminal" {
+
+  }
+  
+  file VentanaHija8 as "Fotos" {
+  }
+  file VentanaHija9 as "Documento" {
+  }
+  
+  
+  Pantalla --> VentanaHija2
+  Pantalla --> VentanaHija7
+  Pantalla -[#blue,bold]-> VentanaHija1 : focus path
+  VentanaHija1 -[#blue,bold]-> VentanaHija3 : is focused
+  VentanaHija1 --> VentanaHija4
+  VentanaHija2 --> VentanaHija5
+  VentanaHija2 --> VentanaHija6
+  VentanaHija5 --> VentanaHija8
+  VentanaHija5 --> VentanaHija9
+  
+
+}
+@enduml
